@@ -64,3 +64,13 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+## Accessing the API 
+
+<ul>
+<li>Open the cmd/terminal and navigate to the project</li> 
+<li>Use the following code first on the cmd prompt:
+<code>php artisan serve</code> to start the server</li>
+<li>copy the address where the server is running and append /api/posts to view all posts in json format</li>
+</ul>
+For more api requests checkout the routes/api.php file

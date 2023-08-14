@@ -84,6 +84,7 @@ class UserController extends Controller
             // $request->user()->tokens->each(function ($token, $key) {
             //      $token->delete();
             //  });
+            // OR
             $request->user()->tokens()->delete();
              return response()->json([
                 'status'    => 1,

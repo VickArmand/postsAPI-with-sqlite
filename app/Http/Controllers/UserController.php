@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -12,6 +14,7 @@ class UserController extends Controller
     public function index()
     {
         //
+        return User::all();
     }
 
     /**
@@ -25,12 +28,63 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function register(Request $request)
     {
         //
+        $request->validate(
+            [
+                'email'=>'required|email|unique:users|max:300',
+                'name'=>'required|string|max:300',
+                'password'=>'required|confirmed|string|min:8'
+            ]
+        );
+        $user = new User();
+        $user->email = $request->email;
+        $user->name = $request->name;
+        $user->password = bcrypt($request->password);
+        $msg = $user->save() ? ["User registered"] : ["User registration failed"];
+        return $msg;
     }
-
     /**
+     * Store a newly created resource in storage.
+     */
+    public function login(Request $request)
+    {
+        //
+        $request->validate(
+            [
+                'email'=>'required|email|max:300',
+                'password'=>'required|string|min:8'
+            ]
+        );
+        $user = User::where("email",$request->email)->first();
+        if ($user && Hash::check($request->password, $user->password))
+        {
+            $token = $user->createToken('myAppToken')->plainTextToken;
+            return response([
+                'user'=>$user,
+                'token'=>$token
+            ], 201);
+        }
+        else{
+            return response([
+                "Invalid Credentials"
+            ], 401);
+        }
+    }
+    /**
+     * Clear token.
+     */
+    public function logout(Request $request)
+    {
+        //
+        // $request->user()->token()->delete();
+        // OR
+        $request->user()->token()->revoke();
+        //$request->user()->tokens()->delete();
+        return response(['logged out'], 201);
+    }
+    /** 
      * Display the specified resource.
      */
     public function show(string $id)

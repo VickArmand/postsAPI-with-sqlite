@@ -25,7 +25,7 @@ class PostsController extends Controller
         //
     }
     /**
-     * Display the specified resource.
+     * Search with the slug.
      */
     public function search(string $slug = null)
     {

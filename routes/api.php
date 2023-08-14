@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\PostsController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -20,10 +21,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 Route::group(['middleware' => 'auth:sanctum'], function()
 {
-
+    Route::post('/logout', [UserController::class, 'logout']);
+    Route::post('/posts/create', [PostsController::class, 'store']);
+    Route::put('/posts/update/id/{id?}', [PostsController::class, 'update']);
+    Route::delete('/posts/delete/id/{id?}', [PostsController::class, 'destroy']);
 });
 Route::get('/posts', [PostsController::class, 'index']);
 Route::get('/posts/id/{id?}', [PostsController::class, 'show']);
-Route::post('/posts/create', [PostsController::class, 'store']);
-Route::put('/posts/update/id/{id?}', [PostsController::class, 'update']);
-Route::delete('/posts/delete/id/{id?}', [PostsController::class, 'destroy']);
+Route::post('/login', [UserController::class, 'login']);
+Route::post('/register', [UserController::class, 'register']);

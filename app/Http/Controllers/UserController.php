@@ -29,7 +29,7 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function register(Request $request)
+    protected function register(Request $request)
     {
         //
         $request->validate(
@@ -49,7 +49,7 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function login(Request $request)
+    protected function login(Request $request)
     {
         //
         $request->validate(
@@ -76,7 +76,7 @@ class UserController extends Controller
     /**
      * Clear token.
      */
-    public function logout(Request $request)
+    protected function logout(Request $request)
     {
         if (Auth::check())
         {

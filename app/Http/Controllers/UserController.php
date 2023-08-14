@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -77,12 +79,20 @@ class UserController extends Controller
      */
     public function logout(Request $request)
     {
-        //
-        // $request->user()->token()->delete();
-        // OR
-        $request->user()->token()->revoke();
-        //$request->user()->tokens()->delete();
-        return response(['logged out'], 201);
+        if (Auth::check())
+        {
+            // $request->user()->tokens->each(function ($token, $key) {
+            //      $token->delete();
+            //  });
+            $request->user()->tokens()->delete();
+             return response()->json([
+                'status'    => 1,
+                'message'   => 'User Logout',
+            ], 200);
+        }
+        else{ 
+            return response(['error'=>'Unauthorised'] , 403);
+        } 
     }
     /** 
      * Display the specified resource.

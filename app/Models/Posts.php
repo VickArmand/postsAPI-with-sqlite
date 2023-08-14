@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class Posts extends Model
 {
     use HasFactory;
-    protected $filables = ['title', 'body'];
+    protected $filables = ['title', 'body','slug'];
 }
